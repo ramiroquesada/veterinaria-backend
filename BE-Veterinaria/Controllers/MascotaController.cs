@@ -96,6 +96,43 @@ namespace BE_Veterinaria.Controllers
 
 
         }
+
+        [HttpPut("{id}")]
+
+        public async Task<IActionResult> Put(int id, Mascota mascota)
+        {
+            try
+            {
+                if(id != mascota.Id)
+                {
+                    return BadRequest();
+
+                }
+
+                var mascotaItem = await _context.Mascotas.FindAsync(id);
+
+                if (mascotaItem == null)
+                {
+                    return NotFound();
+                }
+
+                mascotaItem.Nombre = mascota.Nombre;
+                mascotaItem.Raza = mascota.Raza;
+                mascotaItem.Edad = mascota.Edad;
+                mascotaItem.Peso = mascota.Peso;
+                mascotaItem.Tipo = mascota.Tipo;
+                mascotaItem.Color = mascota.Color;
+                mascotaItem.Duenio = mascota.Duenio;
+
+
+                await _context.SaveChangesAsync();
+                return NoContent();
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 
 }
