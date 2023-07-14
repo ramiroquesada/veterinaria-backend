@@ -1,4 +1,5 @@
 using BE_Veterinaria.Models;
+using BE_Veterinaria.Models.Repository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,6 +26,15 @@ builder.Services.AddDbContext<AplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("Conexion"));
 });
+
+// AUTOMAPPER
+
+builder.Services.AddAutoMapper(typeof(Program));
+
+// ADD SERVICES
+
+builder.Services.AddScoped<IMascotaRepository, MascotaRepository>();
+
 
 var app = builder.Build();
 
